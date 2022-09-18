@@ -62,10 +62,6 @@ const FacetChart = ({}) => {
         .attr("cx", 25)
         .attr("cy", 25)
 
-  
-
-    
-
 
   }, [outputdata, svgRef.current]); // redraw chart if data changes
 
