@@ -7,6 +7,7 @@ function DemoPg() {
   const [ chartData, setChartData ] = useState([]);
   const [ csvData, setCsvData ] = useState([]);
   const [ dateLabel, setDateLabel ] = useState("choose field");
+  const [ color, setColor ] = useState("#ffffff");
   const [ linePlotLabel , setLinePlotLabel ] = useState("choose field");
   const [ toggle , setToggle ] = useState(false);
 
@@ -38,12 +39,16 @@ function DemoPg() {
   const handleLinePlotChange = (event) => {
     setLinePlotLabel(event.target.value);
   };
+  const handleLineColorChange = (event) => {
+    setColor(event.target.value);
+  };
   const clearChart = (event) => {
     d3.select(svgRef.current).html(null);
     setChartData([])
     setCsvData([])
     setDateLabel("choose field");
     setLinePlotLabel("choose field");
+    setColor("#ffffff");
     setToggle(false);
     resetFileInput();
   };
@@ -95,6 +100,14 @@ function DemoPg() {
                   </div>
                 )
               }
+              {chartData.length > 0 && 
+                (
+                  <div>
+                    <p>Choose line color</p>
+                    <input type="color" id="favcolor" onChange={handleLineColorChange} name="favcolor" value={color} />
+                  </div>
+                )
+              }
             </div>
 
             { (linePlotLabel !== "choose field" && dateLabel !== "choose field") && 
@@ -117,6 +130,7 @@ function DemoPg() {
         chartData={chartData}
         dateLabel={dateLabel}
         linePlotLabel={linePlotLabel}
+        color={color}
         svgRef={svgRef}
       /> : "upload data")
       }

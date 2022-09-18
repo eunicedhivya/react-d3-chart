@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const LineChart = ({chartData, dateLabel, linePlotLabel, svgRef}) => {
+const LineChart = ({chartData, dateLabel, linePlotLabel, svgRef, color}) => {
   
   // const svgRef = useRef(null);
 
@@ -47,7 +47,7 @@ const LineChart = ({chartData, dateLabel, linePlotLabel, svgRef}) => {
       .attr("class", "line")
       .attr("d", valueline)
       .attr("fill", "none")
-      .attr("stroke", "#000000")
+      .attr("stroke", color)
       .attr("stroke-width", 3);
 
   // Add the X Axis
