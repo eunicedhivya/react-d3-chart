@@ -1,15 +1,20 @@
 import './App.css';
 import FileUpload from './components/fileupload/FileUpload';
-import { useState } from "react";
+import { useState, useRef } from "react";
 import LineChart from './components/linechart/LineChart';
-// import LineChart from './components/barchart/LineChart';
-import SelectField from './components/selectfield/SelectField';
 
 function App() {
   const [ chartData, setChartData ] = useState([]);
   const [ dateLabel, setDateLabel ] = useState("choose field");
   const [ linePlotLabel , setLinePlotLabel ] = useState("choose field");
   const [ toggle , setToggle ] = useState(false);
+
+  const inputRef = useRef(null);
+
+  const resetFileInput = () => {
+    // 👇️ reset input value
+    inputRef.current.value = null;
+  };
 
   const loadChartData = (input) => {
     setChartData(input);
@@ -35,13 +40,18 @@ function App() {
     setChartData([])
     setDateLabel("choose field");
     setLinePlotLabel("choose field");
+    resetFileInput();
   };
 
   return (
     <div className="App">
       <header>
         <div className='container'>
-          <FileUpload loadChartData={loadChartData} />
+          <FileUpload 
+            loadChartData={loadChartData}
+            inputRef={inputRef}
+
+           />
           <div className='settings'>
             <div className='dataselection'>
               {chartData.length > 0 && 

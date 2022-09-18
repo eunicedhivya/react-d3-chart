@@ -1,7 +1,7 @@
 import { csvParse } from 'd3'; 
 import { useState } from 'react';
 
-function FileUpload({loadChartData}) {
+function FileUpload({loadChartData, inputRef}) {
   const [ fileUploaded, setFileUploaded ] = useState(null);
   const [ csvData, setCsvData ] = useState([]);
   const [ error, setError ] = useState("");
@@ -24,7 +24,7 @@ function FileUpload({loadChartData}) {
   }
   return (
     <div className="fileupload">
-        <input type="file" id="myfile" name="file_upload" onChange={onFileChange} />
+        <input ref={inputRef} type="file" id="myfile" name="file_upload" onChange={onFileChange} />
         {error && error}
         <div className='scrollbox'>
         {csvData.length === 0 ? null : <p>Uploaded file contains {csvData.length} rows</p> }
