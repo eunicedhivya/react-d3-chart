@@ -1,9 +1,43 @@
-.fileupload{
+/* .fileupload{
   background-color: #34495e;
   height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  
   flex-direction: column;
+}
+
+svg{
+  background-color: #ccc;
+  margin: 0 auto;
+}
+
+.dataselection {
+  display: flex;
+} */
+
+* { margin: 0; padding: 0; box-sizing: border-box;}
+
+header {
+  background-color: #34495e;
+  height: 200px;
+  color: #fff;
+  height: fit-content;
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  column-gap: 20px;
+  padding: 20px 0;
+}
+
+.dataselection {
+  display: flex;
+  column-gap: 20px;
+  margin-bottom: 20px;
 }
