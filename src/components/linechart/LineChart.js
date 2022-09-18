@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-const LineChart = ({chartData, dateLabel, linePlotLabel}) => {
+const LineChart = ({chartData, dateLabel, linePlotLabel, svgRef}) => {
   
-  const svgRef = useRef(null);
+  // const svgRef = useRef(null);
 
   useEffect(() => {
     // Generate Chart
@@ -25,6 +25,7 @@ const LineChart = ({chartData, dateLabel, linePlotLabel}) => {
     .x(function(d) { return x(d[dateLabel]); })
     .y(function(d) { return y(d[linePlotLabel]); });
 
+    // d3.select(svgRef.current).html(null)
 
     var svg = d3.select(svgRef.current).attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)

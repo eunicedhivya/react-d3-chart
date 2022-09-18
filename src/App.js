@@ -2,116 +2,29 @@ import './App.css';
 import FileUpload from './components/fileupload/FileUpload';
 import { useState, useRef } from "react";
 import LineChart from './components/linechart/LineChart';
+import * as d3 from "d3";
+import DemoPg from './pages/DemoPg';
+import FacetChartPg from './pages/FacetChartPg'; 
+import HomePg from './pages/HomePg'; 
+import { Switch, Route } from "react-router-dom";
 
 function App() {
-  const [ chartData, setChartData ] = useState([]);
-  const [ dateLabel, setDateLabel ] = useState("choose field");
-  const [ linePlotLabel , setLinePlotLabel ] = useState("choose field");
-  const [ toggle , setToggle ] = useState(false);
-
-  const inputRef = useRef(null);
-
-  const resetFileInput = () => {
-    // 👇️ reset input value
-    inputRef.current.value = null;
-  };
-
-  const loadChartData = (input) => {
-    setChartData(input);
-  }
-  const displayChart = () => {
-    setToggle(true);
-  }
-  const changeFieldValue = (fieldval, fieldtype) => {
-    if(fieldtype === "datefield"){
-      setDateLabel(fieldval);
-    }
-    if(fieldtype === "lineplotfield"){
-      setLinePlotLabel(fieldval);
-    }
-  }
-  const handleDateChange = (event) => {
-    setDateLabel(event.target.value);
-  };
-  const handleLinePlotChange = (event) => {
-    setLinePlotLabel(event.target.value);
-  };
-  const clearChart = (event) => {
-    setChartData([])
-    setDateLabel("choose field");
-    setLinePlotLabel("choose field");
-    resetFileInput();
-  };
-
   return (
     <div className="App">
-      <header>
-        <div className='container'>
-          <FileUpload 
-            loadChartData={loadChartData}
-            inputRef={inputRef}
-
-           />
-          <div className='settings'>
-            <div className='dataselection'>
-              {chartData.length > 0 && 
-                (
-                  <div>
-                    <p>Choose Date Field</p>
-                    <select onChange={handleDateChange} value={dateLabel}>
-                      <option value="choose field">choose field</option>
-                      {Object.keys(chartData[0]).map((names) => {
-                          return (
-                              <>
-                              <option key={names} value={names}>{names}</option>
-                              </>
-                          )
-                      })}
-                  </select>
-                  </div>
-                )
-              }
-              {chartData.length > 0 && 
-                (
-                  <div>
-                    <p>Choose Plot Value Field</p>
-                    <select onChange={handleLinePlotChange} value={linePlotLabel}>
-                      <option value="choose field">choose field</option>
-                      {Object.keys(chartData[0]).map((names) => {
-                          return (
-                              <>
-                              <option key={names} value={names}>{names}</option>
-                              </>
-                          )
-                      })}
-                  </select>
-                  </div>
-                )
-              }
-            </div>
-
-            { (linePlotLabel !== "choose field" && dateLabel !== "choose field") && 
-              <>
-              <button onClick={displayChart}>Generate Line Chart</button>
-              <button onClick={clearChart}>Clear</button>
-              </>
-            }
-            
-
-          </div>
-
-        </div>
-
-      </header>
-
-      {
-        toggle && (chartData.length > 0 ? <LineChart 
-        chartData={chartData}
-        dateLabel={dateLabel}
-        linePlotLabel={linePlotLabel}
-      /> : "upload data")
-      }
-      
+       <Switch>
+        <Route path="/" exact>
+          <HomePg />
+        </Route>
+        <Route path="/demo" exact>
+          <DemoPg />
+        </Route>
+        <Route path="/facet-chart">
+          <FacetChartPg />
+        </Route>
+        <Route path="**">
+          <div>404</div>
+        </Route>
+       </Switch>
     </div>
   );
 }

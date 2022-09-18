@@ -1,10 +1,12 @@
-import { csvParse } from 'd3'; 
+import { csvParse, select } from 'd3'; 
 import { useState } from 'react';
 
-function FileUpload({loadChartData, inputRef}) {
+function FileUpload({loadChartData, inputRef, csvData, setCsvData, svgRef}) {
   const [ fileUploaded, setFileUploaded ] = useState(null);
-  const [ csvData, setCsvData ] = useState([]);
+  // const [ csvData, setCsvData ] = useState([]);
   const [ error, setError ] = useState("");
+
+  
 
   const onFileChange = (e) => {
     const file = e.target.files[0];
@@ -16,6 +18,7 @@ function FileUpload({loadChartData, inputRef}) {
           const parsedData = csvParse(evnt.target.result);
           setCsvData(parsedData);
           loadChartData(parsedData);
+          select(svgRef.current).html(null);
       }
       reader.onerror = function (evnt) {
           setError("file loading error")

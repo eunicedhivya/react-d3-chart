@@ -41,3 +41,20 @@ header {
   column-gap: 20px;
   margin-bottom: 20px;
 }
+
+.chartcontainer{
+  display: flex;
+    justify-content: center;
+}
+
+svg{
+  background-color: #e8e8e8;
+}
+
+.homepg {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
