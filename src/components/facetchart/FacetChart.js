@@ -1,6 +1,7 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import * as d3 from "d3";
+import {outputdata} from "../../data/outputdata";
 
 const FacetChart = ({}) => {
   
@@ -10,64 +11,63 @@ const FacetChart = ({}) => {
 
   useEffect(() => {
     // Generate Chart
-
+    // console.log(outputdata);
     // set the dimensions and margins of the graph
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    const margin = {top: 20, right: 20, bottom: 30, left: 50}
+    const width = 960;
+    const height = 500;
 
-    // parse the date / time
-    var parseTime = d3.timeParse("%d-%b-%y");
+    const padding = 30;
+    const doublePadding = padding * 2;
 
-    // set the ranges
-    var x = d3.scaleTime().range([0, width]);
-    var y = d3.scaleLinear().range([height, 0]);
+    const plotHeight = height - padding * 2;
+    const plotWidth = (width - doublePadding)/outputdata.length - padding;
 
-    // define the line
-    // var valueline = d3.line()
-    // .x(function(d) { return x(d[dateLabel]); })
-    // .y(function(d) { return y(d[linePlotLabel]); });
+    // Create the SVG container
+    const svg = d3.select(svgRef.current)
+        .attr("width", margin.left+width+margin.right)
+        .attr("height", margin.top+height+margin.bottom+(padding*outputdata.length));
 
-    // d3.select(svgRef.current).html(null)
+    const xScale = d3.scaleLinear()
+        .range([0, plotHeight]);
+            
+    const yScale = d3.scaleLinear()
+        .range([plotWidth,0]);
 
-    var svg = d3.select(svgRef.current).attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
+    // Create the main group of all subplots
+    const g = svg.append("g")
+        .attr("class", "allsubplots")
+        .attr("transform","translate("+[margin.left,margin.top]+")")
 
-//   chartData.forEach(function(d) {
-//       d[dateLabel] = parseTime(d[dateLabel]);
-//       d[linePlotLabel] = +d[linePlotLabel];
-//   });
+    const subplots = g.selectAll("subplot")
+        .data(outputdata)
+        .enter()
+        .append("g")
+        .attr("class", "subplot")
+        .attr("transform", function(d,i) {
+            return "translate("+[i*(padding+plotWidth)+padding, padding]+")";
+        })
 
-//   x.domain(d3.extent(chartData, function(d) { return d[dateLabel]; }));
-//   y.domain([0, d3.max(chartData, function(d) { return d[linePlotLabel]; })]);
+    subplots.append("rect")
+        .attr("width",plotWidth)
+        .attr("height",plotHeight)
+        .attr("class","bg")
+        .attr("fill","#ddd")
 
-
-//   svg.append("path")
-//       .data([chartData])
-//       .attr("class", "line")
-//       .attr("d", valueline)
-//       .attr("fill", "none")
-//       .attr("stroke", "#000000")
-//       .attr("stroke-width", 3);
-
-//   // Add the X Axis
-//   svg.append("g")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(d3.axisBottom(x));
-
-  // Add the Y Axis
-//   svg.append("g")
-//       .call(d3.axisLeft(y));
+    subplots.selectAll("dots")
+        .data(function(d){ return d.data; })
+        .enter()
+        .append("circle")
+        .attr("r", 15)
+        .attr("cx", 25)
+        .attr("cy", 25)
 
   
 
     
 
 
-  }, [chartData, svgRef.current]); // redraw chart if data changes
+  }, [outputdata, svgRef.current]); // redraw chart if data changes
 
 
   return <svg ref={svgRef} />;
