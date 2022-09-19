@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# React D3 Chart app
 
 Step 1: Install the necessary dependencies for the app
 ```
